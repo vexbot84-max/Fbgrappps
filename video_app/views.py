@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import StreamingHttpResponse
+from django.http import JsonResponse
 from django.utils.encoding import iri_to_uri
 import requests
 
@@ -26,12 +27,12 @@ def fetch_video(request):
                 return JsonResponse({'error': data['error']})
             return render(request, 'video_app/index.html', {'error': data['error']})
 
-        # AJAX request → return only snippet
+        # AJAX → render only snippet, not full template
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            snippet_html = render(request, 'video_app/video_snippet.html', {'video': data}).content.decode('utf-8')
+            snippet_html = render(request, 'video_app/video_snippet.html', {'video': data}).rendered_content
             return JsonResponse({'html': snippet_html})
 
-        # Otherwise render full page
+        # Normal request → full page
         return render(request, 'video_app/index.html', {'video': data})
 
     except Exception as e:
