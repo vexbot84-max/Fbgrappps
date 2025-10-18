@@ -27,11 +27,15 @@
    <b> <h1><i class="fas fa-link me-2"></i>Enter Video URL</h1></b>
     
     <!-- Form to fetch video -->
-    <form method="get" action="{% url 'fetch_video' %}">
-        <i class="fas fa-globe"></i>
-        <input type="text" name="url" placeholder="Paste video URL" required>
-        <button type="submit"> <i class="fas fa-search me-2"></i>Fetch Video</button>
-    </form>
+    <form id="fetchForm" method="get" action="{% url 'fetch_video' %}">
+    <i class="fas fa-globe"></i>
+    <input type="text" name="url" placeholder="Paste video URL" required>
+    <button type="submit"> <i class="fas fa-search me-2"></i>Fetch Video</button>
+</form>
+</div>
+  <div id="loading" style="display:none; text-align:center; margin:20px;">
+    <img src="{% static 'images/loading.gif' %}" alt="Loading..." width="50">
+    <p>Fetching video, please wait...</p>
 </div>
 <div class="result">
   {% if error %}
@@ -101,6 +105,38 @@
             </div>
         </div>
     </div>
+
+  <script>
+const form = document.getElementById('fetchForm');
+const loadingDiv = document.getElementById('loading');
+const resultDiv = document.querySelector('.result');
+
+form.addEventListener('submit', async function(e) {
+    e.preventDefault(); // prevent page reload
+
+    const urlInput = form.querySelector('input[name="url"]').value;
+    if (!urlInput) return alert('Please enter a video URL');
+
+    // Show loading animation and hide previous results
+    loadingDiv.style.display = 'block';
+    resultDiv.style.display = 'none';
+
+    try {
+        // Fetch video from your Django view
+        const response = await fetch(`{% url 'fetch_video' %}?url=${encodeURIComponent(urlInput)}`);
+        const html = await response.text();
+
+        // Hide loading, show results
+        loadingDiv.style.display = 'none';
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = html;
+    } catch (err) {
+        loadingDiv.style.display = 'none';
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<p style="color:red">Error fetching video: ${err}</p>`;
+    }
+});
+</script>
     <style>
         
        
