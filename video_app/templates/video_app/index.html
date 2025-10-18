@@ -47,7 +47,7 @@
 }
 </style>
     
-    <p>Fetching video, please wait...</p>
+    <p id="para">Fetching video, please wait...</p>
 </div>
 
 <!-- Video result -->
@@ -72,6 +72,7 @@
 <script>
 const form = document.getElementById('fetchForm');
 const hids = document.getElementById('ress');
+const para = document.getElementById('para');
 const loadingDiv = document.getElementById('loading');
 const resultDiv = document.querySelector('.result');
 
@@ -99,6 +100,7 @@ form.addEventListener('submit', async function(e) {
         hids.style.display = 'none';
         loadingDiv.style.display = 'none';
         resultDiv.style.display = 'block';
+        para.style.display = 'none';
 
 
     } catch (err) {
@@ -112,16 +114,16 @@ form.addEventListener('submit', async function(e) {
     <style>
        
        
-      /* Style for the play-circle icon */
+      
 .logo-icon {
-    font-size: 50px;          /* adjust size as needed */  
+    font-size: 50px;          
     margin: 0;
-    color: red;               /* main color */
-    background: white;        /* background circle */
-    border-radius: 50%;       /* make it circular */
-    padding: 0;            /* space around the icon */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* optional shadow */
-    transition: transform 0.2s, box-shadow 0.2s; /* smooth hover */
+    color: red;               
+    background: white;        
+    border-radius: 50%;       
+    padding: 0;            
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+    transition: transform 0.2s, box-shadow 0.2s; 
     cursor: pointer;
 }
 
