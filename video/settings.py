@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-gl!o1avj1r&^o&l2-$y6!d710*ymzgj2h=xlg_%@s4@2im*vja
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://fbgrabx.onrender.com','fbgrabx.onrender.com']
 
 
 # Application definition
