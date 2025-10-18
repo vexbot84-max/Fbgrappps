@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
+<div id="ress">
 <div class="headd">
     <i class="fas fa-play-circle logo-icon"></i>
     <h1><b>GrabX</b></h1>
@@ -25,6 +25,7 @@
     </form>
 </div>
 
+</div>
 <!-- Loading animation -->
 <div class="loading" id="loading" style="display:none; text-align:center; margin:20px;">
     <img src="{% static 'images/loading.gif' %}" alt="Loading..." width="50">
@@ -51,6 +52,7 @@
 <!-- JavaScript -->
 <script>
 const form = document.getElementById('fetchForm');
+const hids = document.getElementById('ress');
 const loadingDiv = document.getElementById('loading');
 const resultDiv = document.querySelector('.result');
 
@@ -74,9 +76,11 @@ form.addEventListener('submit', async function(e) {
         } else {
             resultDiv.innerHTML = data.html;
         }
-
+      
+        hids.style.display = 'none';
         loadingDiv.style.display = 'none';
-        resultDiv.style.display = 'none';
+        resultDiv.style.display = 'block';
+
 
     } catch (err) {
         loadingDiv.style.display = 'none';
