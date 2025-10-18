@@ -22,17 +22,14 @@ def fetch_video(request):
         response = requests.get(API_URL, params={'url': video_url}, timeout=60)
         data = response.json()
 
-        if 'error' in data:
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({'error': data['error']})
-            return render(request, 'video_app/index.html', {'error': data['error']})
-
-        # AJAX → render only snippet, not full template
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            snippet_html = render(request, 'video_app/video_snippet.html', {'video': data}).rendered_content
+            if 'error' in data:
+                return JsonResponse({'error': data['error']})
+            # render snippet only
+            snippet_html = render(request, 'video_app/video_snippet.html', {'video': data}).content.decode('utf-8')
             return JsonResponse({'html': snippet_html})
 
-        # Normal request → full page
+        # normal full-page request
         return render(request, 'video_app/index.html', {'video': data})
 
     except Exception as e:
