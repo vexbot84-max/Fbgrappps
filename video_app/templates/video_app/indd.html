@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Downloader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f0f0f0;
+    }
+    input {
+      width: 60%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+    }
+    img {
+      max-width: 300px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+    a.download-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #4caf50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    a.download-btn:hover {
+      background: #45a049;
+    }
+    p.error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Video Downloader</h1>
+
+<!-- Form to fetch video -->
+<form method="get" action="{% url 'fetch_video' %}">
+  <input type="text" name="url" placeholder="Paste video URL" required>
+  <button type="submit">Fetch Video</button>
+</form>
+
+<div class="result">
+  {% if error %}
+    <p class="error">{{ error }}</p>
+  {% endif %}
+
+  {% if video %}
+    <h3>{{ video.title }}</h3>
+    <img src="{{ video.thumbnail }}" alt="Thumbnail">
+    <br>
+    <!-- Download button that streams via Django -->
+    <a href="{{ video.url }}" download="{{ video.title }}.mp4">Download</a>
+  {% endif %}
+</div>
+
+</body>
+</html>
