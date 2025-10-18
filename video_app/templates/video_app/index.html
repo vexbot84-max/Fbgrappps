@@ -27,8 +27,26 @@
 
 </div>
 <!-- Loading animation -->
-<div class="loading" id="loading" style="display:none; text-align:center; margin:20px;">
-    <img src="{% static 'images/loading.gif' %}" alt="Loading..." width="50">
+<div id="loading" 
+     style="
+       display:none;
+       width:50px;
+       height:50px;
+       border:6px solid #ccc;
+       border-top:6px solid #007bff;
+       border-radius:50%;
+       margin:20px auto;
+       animation: spin 1s linear infinite;
+     ">
+</div>
+
+<style>
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+    
     <p>Fetching video, please wait...</p>
 </div>
 
@@ -92,24 +110,7 @@ form.addEventListener('submit', async function(e) {
 </script>
 
     <style>
-       .loading{
-  width: 50px;
-  height: 50px;
-  border: 6px solid #ccc;       /* light grey background */
-  border-top: 6px solid #007bff; /* colored part of circle */
-  border-radius: 50%;           /* makes it a circle */
-  animation: spin 1s linear infinite; /* keyframe animation */
-
-/* Keyframes for rotation */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);    /* start rotation */
-  }
-  100% {
-    transform: rotate(360deg);  /* full rotation */
-  }
-}
-      }   
+       
        
       /* Style for the play-circle icon */
 .logo-icon {
