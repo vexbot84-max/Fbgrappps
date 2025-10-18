@@ -76,6 +76,8 @@ const para = document.getElementById('para');
 const loadingDiv = document.getElementById('loading');
 const resultDiv = document.querySelector('.result');
 
+para.style.display = 'none';
+  
 form.addEventListener('submit', async function(e) {
     e.preventDefault(); // prevent page reload
 
@@ -84,6 +86,7 @@ form.addEventListener('submit', async function(e) {
 
     loadingDiv.style.display = 'block';
     resultDiv.style.display = 'none';
+    
 
     try {
         const response = await fetch(`{% url 'fetch_video' %}?url=${encodeURIComponent(urlInput)}`, {
