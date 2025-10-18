@@ -13,6 +13,8 @@ def home(request):
 def fetch_video(request):
     video_url = request.GET.get('url')
     if not video_url:
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'error': 'Please enter a video URL'})
         return render(request, 'video_app/index.html', {'error': 'Please enter a video URL'})
 
     try:
@@ -20,12 +22,21 @@ def fetch_video(request):
         data = response.json()
 
         if 'error' in data:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'error': data['error']})
             return render(request, 'video_app/index.html', {'error': data['error']})
 
-      
+        # AJAX request → return only snippet
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            snippet_html = render(request, 'video_app/video_snippet.html', {'video': data}).content.decode('utf-8')
+            return JsonResponse({'html': snippet_html})
+
+        # Otherwise render full page
         return render(request, 'video_app/index.html', {'video': data})
 
     except Exception as e:
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'error': str(e)})
         return render(request, 'video_app/index.html', {'error': str(e)})
 
 def download_video(request):
