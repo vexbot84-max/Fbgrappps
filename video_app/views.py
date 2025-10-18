@@ -22,21 +22,23 @@ def fetch_video(request):
         response = requests.get(API_URL, params={'url': video_url}, timeout=60)
         data = response.json()
 
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            if 'error' in data:
+        if 'error' in data:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({'error': data['error']})
-            # render snippet only
+            return render(request, 'video_app/index.html', {'error': data['error']})
+
+        # AJAX request → return only snippet
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             snippet_html = render(request, 'video_app/video_snippet.html', {'video': data}).content.decode('utf-8')
             return JsonResponse({'html': snippet_html})
 
-        # normal full-page request
+        # Otherwise render full page
         return render(request, 'video_app/index.html', {'video': data})
 
     except Exception as e:
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({'error': str(e)})
         return render(request, 'video_app/index.html', {'error': str(e)})
-
 def download_video(request):
     video_url = request.GET.get('url')
     title = request.GET.get('title', 'video.mp4')
