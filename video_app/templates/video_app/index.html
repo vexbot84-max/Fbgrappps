@@ -46,6 +46,7 @@
     <a href="{% url 'download_video' %}?url={{ video.url|urlencode }}&title={{ video.title|urlencode }}" class="btn-download">
         Download Video
     </a>
+    <button class="bttn" onclick="window.location.href='/'">Next</button>
   {% endif %}
 </div>
 
@@ -161,6 +162,18 @@ form.addEventListener('submit', async function(e) {
       border-radius: 5px;
     }
     a.download-btn:hover {
+      background: #45a049;
+    }
+    .bttn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 19px 30px;
+      background: black;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .bttn:hover {
       background: #45a049;
     }
     p.error {
