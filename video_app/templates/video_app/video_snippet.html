@@ -1,0 +1,13 @@
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+{% if video %}
+<img src="{{ video.thumbnail }}" alt="Thumbnail">
+<h3 class="video-title">{{ video.title }}</h3>
+<p>Duration: {{ video.duration }} seconds</p>
+<br>
+<a href="{% url 'download_video' %}?url={{ video.url|urlencode }}&title={{ video.title|urlencode }}" class="btn-download">
+ Download Video
+</a>
+{% endif %}
